@@ -26,37 +26,9 @@ object View : SimplePanel() {
         ){
         }
 
-        val sortOptions = listOf(
-            "${Sort.TITLE}" to "Название",
-            "${Sort.PRICE}" to "Цена",
-            "${Sort.CATEGORY}" to "Категория",
-            "${Sort.TAG}" to "Тег",
-            "${Sort.CREATEAT}" to "Дата"
-        )
-        val selector = SelectInput(sortOptions, "${Sort.TITLE}") {
-            onChangeLaunch {
-            this.value?.let { opt ->
-                Model.sort = Sort.valueOf(opt)
-            }
-        }
-        }
-//        val sortButton = Button("Сортировать").onClick { selector.value?.let { opt ->
-//            Model.sort = Sort.valueOf(opt)
-//        } }
 
-        val searchPanel = HPanel {
-            text( TextInputType.SEARCH ) {
-                placeholder = "Найти ..."
-                setEventListener<TextInput> {
-                    input = {
-                        Model.search = self.value
-                    }
-                }
-            }
-        }
-
-        NavPanel.add(selector)
-        NavPanel.add(searchPanel)
+        NavPanel.add(Selector)
+        NavPanel.add(SearchPanel)
 
         dataContainer(
             Model.cards, {card, order, _ ->
