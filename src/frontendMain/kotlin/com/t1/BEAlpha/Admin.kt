@@ -39,49 +39,6 @@ object Admin: SimplePanel() {
 
         dataContainer(
             Model.cards, {card, index, _ ->
-                val modal = Modal(
-                    "Подробнее",
-                    closeButton = true,
-                    escape = true,
-                    className = "modal fade bottom",
-                    animation = true,
-                ){
-                    formPanel<Card> {
-                        add(Card::title, Text(label = "Название").apply { maxlength = 255 })
-                        add(Card::price, Spinner(label = "Цена"))
-                        add(Card::category, Text(label = "Категория").apply { maxlength = 255 })
-                        add(Card::tags, Text(label = "Теги").apply { maxlength = 255 })
-                        add(Card::description, Text(label = "Описание"))
-                        add(Card::createdAt, DateTime(label = "Дата"))
-                        add(Card::img, Upload("/", multiple = false, label = "Upload files (images only)"){
-                            explorerTheme = true
-                            dropZoneEnabled = true
-                            allowedFileTypes = setOf("image")
-                            TODO()
-                        })
-                        button("Загрузить", type = ButtonType.SUBMIT)
-                    }
-
-//                        div(
-//                            className = "modal-body py-1"
-//                        ){
-//                            image(
-//                                className = "img-fluid",
-//                                alt = card.img,
-//                                src = card.img
-//                            )
-//                        }
-//                        div(className = "mb-0"){
-//                            header(className = "card-text", content = card.id.toString())
-//                            h5(className = "card-title", content = card.title)
-//                            p(className = "card-text", content = card.price.toString() + " руб.")
-//                            p(className = "card-text", content = card.description)
-//                            p(className = "card-text", content = card.category)
-//                            p(className = "card-text", content = "#" + card.tags)
-//                            footer(className = "blockquote-footer", content = card.createdAt.toString())
-//                        }
-
-                }
                 add(position = index, Div(className = "card", ){
                     maxWidth = 450.px
                     minWidth = 180.px
@@ -105,8 +62,8 @@ object Admin: SimplePanel() {
                         p(className = "card-text", content = "#" + card.tags)
                         footer(className = "blockquote-footer", content = card.createdAt.toString())
                     }
-                    button("Редактор", "fa-duotone fa-pencil").onClick { modal.show() }
-                    button("Удалить", "fa-duotone fa-trash-can").onClick { e ->
+                    button("Редактор", "fas fa-pencil").onClick { EditPanel(card) }
+                    button("Удалить", "fas fa-trash-can").onClick { e ->
                         e.stopPropagation()
                         Confirm.show("Are you sure?", "Do you want to delete this address?") {
                             AppScope.launch {
