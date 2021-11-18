@@ -34,7 +34,8 @@ class App : Application() {
     override fun start() {
         root("kvapp") {
             add(NavPanel)
-            add(View)
+            add(Admin)
+//            add(View)
         }
         AppScope.launch {
             Model.getCardList()
