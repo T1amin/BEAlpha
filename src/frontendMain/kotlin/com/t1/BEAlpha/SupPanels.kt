@@ -66,14 +66,17 @@ class EditPanel(card: Card) : Modal(
             add(Card::category, Text(label = "Категория", value = editingCard.category).apply { maxlength = 255 })
             add(Card::tags, Text(label = "Теги", value = editingCard.tags).apply { maxlength = 255 })
             add(Card::description, Text(label = "Описание", value = editingCard.description))
-            add(Card::createdAt, DateTime(label = "Дата", value = editingCard.createdAt))
             add(Card::img, Text(label = "Ссылка на изображение", value = editingCard.img))
         }
         saveButton = button("Сохранить") {
             onClick {
                 AppScope.launch {
                     val editCard = formPanel.getData()
-                    Model.updateCard(editCard.copy(id = editingCard.id))
+                    if (card.id == null){
+                        Model.addCard(editCard.copy(id = editCard.id))
+                    }else {
+                        Model.updateCard(editCard.copy(id = editingCard.id))
+                    }
                     this@EditPanel.hide()
                 }
             }

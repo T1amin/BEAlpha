@@ -36,6 +36,7 @@ object Admin: SimplePanel() {
 
         NavPanel.add(Selector)
         NavPanel.add(SearchPanel)
+        NavPanel.add(Button("Добавить").onClick { EditPanel(Card(null)) })
 
         dataContainer(
             Model.cards, {card, index, _ ->
@@ -60,7 +61,7 @@ object Admin: SimplePanel() {
                         p(className = "card-text", content = card.description)
                         p(className = "card-text", content = card.category)
                         p(className = "card-text", content = "#" + card.tags)
-                        footer(className = "blockquote-footer", content = card.createdAt.toString())
+                        footer(className = "blockquote-footer", content = card.createdAt?.toLocaleString("ru-Ru"))
                     }
                     button("Редактор", "fas fa-pencil").onClick { EditPanel(card) }
                     button("Удалить", "fas fa-trash-can").onClick { e ->
