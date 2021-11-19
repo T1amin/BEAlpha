@@ -30,6 +30,9 @@ import kotlinx.coroutines.launch
 val AppScope = CoroutineScope(window.asCoroutineDispatcher())
 
 class App : Application() {
+    init {
+        io.kvision.require("css/style.css")
+    }
 
     override fun start() {
         root("kvapp") {

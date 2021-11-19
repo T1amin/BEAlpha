@@ -15,6 +15,8 @@ import io.kvision.modal.Confirm
 import io.kvision.modal.Modal
 import io.kvision.panel.FlexPanel
 import io.kvision.panel.SimplePanel
+import io.kvision.panel.flexPanel
+import io.kvision.panel.simplePanel
 import io.kvision.table.HeaderCell
 import io.kvision.table.Table
 import io.kvision.table.TableType
@@ -40,40 +42,42 @@ object Admin: SimplePanel() {
 
         dataContainer(
             Model.cards, {card, index, _ ->
-                add(position = index, Div(className = "card", ){
-                    maxWidth = 450.px
-                    minWidth = 180.px
-                    margin = 5.px
-                    flexShrink = 1
+                add(position = index, Div(className = "polaroid"){
+                        maxWidth = 450.px
+                        minWidth = 180.px
+//                        margin = 5.px
+//                        flexShrink = 1
+                    article {
                     div(
-                        className = "card-body"
-                    ){
-                        image(
-                            className = "img-fluid",
-                            alt = card.img,
-                            src = card.img
-                        )
-                    }
-                    div(className = "card-body"){
-                        header(className = "card-text", content = card.id.toString())
-                        h5(className = "card-title", content = card.title)
-                        p(className = "card-text", content = card.price.toString() + " руб.")
-                        p(className = "card-text", content = card.description)
-                        p(className = "card-text", content = card.category)
-                        p(className = "card-text", content = "#" + card.tags)
-                        footer(className = "blockquote-footer", content = card.createdAt?.toLocaleString("ru-Ru"))
-                    }
-                    button("Редактор", "fas fa-pencil").onClick { EditPanel(card) }
-                    button("Удалить", "fas fa-trash-can").onClick { e ->
-                        e.stopPropagation()
-                        Confirm.show("Are you sure?", "Do you want to delete this address?") {
-                            AppScope.launch {
-                                Model.cards[index].id?.let {
-                                    Model.deleteCard(card.id!!)
+                            className = "card-body"
+                        ) {
+                            image(
+                                className = "img-fluid",
+                                alt = card.img,
+                                src = card.img
+                            )
+                        }
+                        div(className = "card-body") {
+                            header(className = "card-text", content = card.id.toString())
+                            h5(className = "card-title", content = card.title)
+                            p(className = "card-text", content = card.price.toString() + " руб.")
+                            p(className = "card-text", content = card.description)
+                            p(className = "card-text", content = card.category)
+                            p(className = "card-text", content = "#" + card.tags)
+                            footer(className = "blockquote-footer", content = card.createdAt?.toLocaleString("ru-Ru"))
+                        }
+                        button("Редактор", "bi bi-pen").onClick { EditPanel(card) }
+                        button("Удалить", "bi bi-trash").onClick { e ->
+                            e.stopPropagation()
+                            Confirm.show("Are you sure?", "Do you want to delete this address?") {
+                                AppScope.launch {
+                                    Model.cards[index].id?.let {
+                                        Model.deleteCard(card.id!!)
+                                    }
                                 }
                             }
-                        } }
-                })
+                        }
+                    }})
             }, container = cardPanel
         )
     }

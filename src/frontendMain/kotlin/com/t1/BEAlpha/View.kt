@@ -40,28 +40,29 @@ object View : SimplePanel() {
                     animation = true,
                 ){
                     div(
-                        className = "modal-dialog modal-frame modal-bottom",
-                    ){
+                        className = "polaroid",
+                    ) {
                         maxWidth = 450.px
                         minWidth = 180.px
-                        margin = 5.px
-                        flexShrink = 1
-                        div(
-                            className = "modal-body py-1"
-                        ){
-                            image(
-                                className = "img-fluid",
-                                alt = card.img,
-                                src = card.img
-                            )
-                        }
-                        div(className = "mb-0"){
-                            h5(className = "card-title", content = card.title)
-                            p(className = "card-text", content = card.price.toString() + " руб.")
-                            p(className = "card-text", content = card.description)
-                            p(className = "card-text", content = card.category)
-                            p(className = "card-text", content = "#" + card.tags)
-                            footer(className = "blockquote-footer", content = card.createdAt?.toLocaleString("ru-Ru"))
+                        article {
+                            div(
+                                className = "modal-body py-1"
+                            ) {
+                                image(
+                                    className = "img-fluid",
+                                    alt = card.img,
+                                    src = card.img
+                                )
+                            }
+                            div(className = "mb-0") {
+                                h5(className = "card-title", content = card.title)
+                                p(className = "card-text", content = card.price.toString() + " руб.")
+                                p(className = "card-text", content = card.description)
+                                p(className = "card-text", content = card.category)
+                                p(className = "card-text", content = "#" + card.tags)
+                                footer(className = "blockquote-footer",
+                                    content = card.createdAt?.toLocaleString("ru-Ru"))
+                            }
                         }
                     }
                 }

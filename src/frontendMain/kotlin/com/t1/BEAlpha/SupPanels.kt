@@ -13,6 +13,9 @@ import io.kvision.form.time.DateTime
 import io.kvision.html.Button
 import io.kvision.html.button
 import io.kvision.modal.Modal
+import io.kvision.navbar.Navbar
+import io.kvision.navbar.nav
+import io.kvision.navbar.navLink
 import io.kvision.panel.HPanel
 import kotlinx.coroutines.launch
 
@@ -23,6 +26,15 @@ val sortOptions = listOf(
     "${Sort.TAG}" to "Тег",
 //    "${Sort.CREATEAT}" to "Дата"
 )
+
+object NavPanel: Navbar(){
+    init {
+        nav {
+            navLink("Контакты")
+            navLink("Товары")
+        }
+    }
+}
 
 object Selector: SelectInput(sortOptions, "${Sort.TITLE}") {
     init {
@@ -68,7 +80,7 @@ class EditPanel(card: Card) : Modal(
             add(Card::description, Text(label = "Описание", value = editingCard.description))
             add(Card::img, Text(label = "Ссылка на изображение", value = editingCard.img))
         }
-        saveButton = button("Сохранить") {
+        saveButton = button("Сохранить", "bi bi-check2-circle") {
             onClick {
                 AppScope.launch {
                     val editCard = formPanel.getData()
