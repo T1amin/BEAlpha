@@ -66,26 +66,26 @@ object View : SimplePanel() {
                         }
                     }
                 }
-                add(position = order, Div(className = "card", ){
+                add(position = order, Div(className = "polaroid", ){
                     maxWidth = 450.px
                     minWidth = 180.px
-                    margin = 5.px
-                    flexShrink = 1
-                    div(
-                        className = "card-body"
-                    ){
-                        image(
-                            className = "img-fluid",
-                            alt = card.img,
-                            src = card.img
-                        )
-                    }
-                    div(className = "card-body"){
-                        h5(className = "card-title", content = card.title)
-                        p(className = "card-text", content = card.price.toString() + " руб")
-                    }
-                    onClick {
-                        modal.show()
+                    article {
+                        div(
+                            className = "card-body"
+                        ) {
+                            image(
+                                className = "img-fluid",
+                                alt = card.img,
+                                src = card.img
+                            )
+                        }
+                        div(className = "card-body") {
+                            h5(className = "card-title", content = card.title)
+                            p(className = "card-text", content = card.price.toString() + " руб")
+                        }
+                        onClick {
+                            modal.show()
+                        }
                     }
                 })
             }, container = cardPanel
