@@ -61,7 +61,7 @@ object View : SimplePanel() {
                             p(className = "card-text", content = card.description)
                             p(className = "card-text", content = card.category)
                             p(className = "card-text", content = "#" + card.tags)
-                            footer(className = "blockquote-footer", content = card.createdAt.toString())
+                            footer(className = "blockquote-footer", content = card.createdAt?.toLocaleString("ru-Ru"))
                         }
                     }
                 }
