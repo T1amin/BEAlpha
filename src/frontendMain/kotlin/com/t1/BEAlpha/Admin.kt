@@ -35,16 +35,18 @@ object Admin: SimplePanel() {
         ){
         }
 
-
-        NavPanel.add(Selector)
-        NavPanel.add(SearchPanel)
-        NavPanel.add(Button("Добавить").onClick { EditPanel(Card(null)) })
+        NavPanel.add(Button(
+            "Добавить товар",
+            icon = "fas fa-plus",
+            style = ButtonStyle.OUTLINEINFO,
+            separator = " "
+        ).onClick { EditPanel(Card(null)) })
 
         dataContainer(
             Model.cards, {card, index, _ ->
                 add(position = index, Div(className = "polaroid"){
-                        maxWidth = 450.px
-                        minWidth = 180.px
+                        maxWidth = 350.px
+                        minWidth = 160.px
 //                        margin = 5.px
 //                        flexShrink = 1
                     article {

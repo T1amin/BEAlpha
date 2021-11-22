@@ -26,10 +26,6 @@ object View : SimplePanel() {
         ){
         }
 
-
-        NavPanel.add(Selector)
-        NavPanel.add(SearchPanel)
-
         dataContainer(
             Model.cards, {card, order, _ ->
                 val modal = Modal(

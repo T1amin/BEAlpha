@@ -1,9 +1,10 @@
 package com.t1.BEAlpha
 
-import io.kvision.core.onChangeLaunch
+import io.kvision.core.*
 import io.kvision.form.FormPanel
 import io.kvision.form.formPanel
 import io.kvision.form.select.SelectInput
+import io.kvision.form.select.selectInput
 import io.kvision.form.spinner.Spinner
 import io.kvision.form.text.Text
 import io.kvision.form.text.TextInput
@@ -12,11 +13,13 @@ import io.kvision.form.text.text
 import io.kvision.form.time.DateTime
 import io.kvision.html.Button
 import io.kvision.html.button
+import io.kvision.html.icon
 import io.kvision.modal.Modal
-import io.kvision.navbar.Navbar
-import io.kvision.navbar.nav
-import io.kvision.navbar.navLink
+import io.kvision.navbar.*
 import io.kvision.panel.HPanel
+import io.kvision.panel.hPanel
+import io.kvision.utils.perc
+import io.kvision.utils.px
 import kotlinx.coroutines.launch
 
 val sortOptions = listOf(
@@ -27,32 +30,37 @@ val sortOptions = listOf(
 //    "${Sort.CREATEAT}" to "Дата"
 )
 
-object NavPanel: Navbar(){
+object NavPanel: Navbar(
+    expand = NavbarExpand.MD,
+    type = NavbarType.STICKYTOP,
+){
+
     init {
+        height = 30.perc
+        alignContent = AlignContent.SPACEBETWEEN
+        verticalAlign =VerticalAlign.BASELINE
         nav {
             navLink("Контакты")
             navLink("Товары")
         }
-    }
-}
-
-object Selector: SelectInput(sortOptions, "${Sort.TITLE}") {
-    init {
-        onChangeLaunch {
-            this.value?.let { opt ->
-                Model.sort = Sort.valueOf(opt)
+        navForm {
+            selectInput(sortOptions, "${Sort.TITLE}") {
+                onChangeLaunch {
+                    this.value?.let { opt ->
+                        Model.sort = Sort.valueOf(opt)
+                    }
+                }
             }
         }
-    }
-}
-
-object SearchPanel: HPanel() {
-    init {
-        text(TextInputType.SEARCH) {
-            placeholder = "Найти ..."
-            setEventListener<TextInput> {
-                input = {
-                    Model.search = self.value
+        navForm {
+            hPanel() {
+                text(TextInputType.SEARCH) {
+                    placeholder = "Найти ..."
+                    setEventListener<TextInput> {
+                        input = {
+                            Model.search = self.value
+                        }
+                    }
                 }
             }
         }
