@@ -29,10 +29,10 @@ actual class CardService : ICardService {
                         }
                     }
                     when (sort) {
-                        Sort.PRICE -> orderBy("lower(title)")
-                        Sort.CATEGORY -> orderBy("lower(price)")
-                        Sort.TAG -> orderBy("lower(category)")
-                        Sort.TITLE -> orderBy("lower(tags)")
+                        Sort.PRICE -> orderBy("lower(price)")
+                        Sort.CATEGORY -> orderBy("lower(category)")
+                        Sort.COLORS -> orderBy("lower(colors)")
+                        Sort.TITLE -> orderBy("lower(title)")
                         Sort.CREATEAT -> orderBy("lower(created_at)")
                     }
                 }
@@ -47,8 +47,8 @@ actual class CardService : ICardService {
             (CardDao.insert {
                 it[title] = card.title
                 it[price] = card.price
-                it[category] = card.category
-                it[tags] = card.tags
+                it[category] = card.category.toString()
+                it[colors] = card.colors.toString()
                 it[description] = card.description
                 it[img] = card.img
                 it[createdAt] = DateTime()
@@ -65,8 +65,8 @@ actual class CardService : ICardService {
                     CardDao.update({ CardDao.id eq it }) { e ->
                         e[title] = card.title
                         e[price] = card.price
-                        e[category] = card.category
-                        e[tags] = card.tags
+                        e[category] = card.category.toString()
+                        e[colors] = card.colors.toString()
                         e[description] = card.description
                         e[img] = card.img
                         e[createdAt] = oldCard.createdAt
@@ -96,7 +96,7 @@ actual class CardService : ICardService {
             title = row[CardDao.title],
             price = row[CardDao.price],
             category = row[CardDao.category],
-            tags = row[CardDao.tags],
+            colors = row[CardDao.colors],
             description = row[CardDao.description],
             img = row[CardDao.img],
             createdAt = row[CardDao.createdAt]?.millis?.let { Date(it) }?.toInstant()
@@ -109,7 +109,7 @@ actual class CardService : ICardService {
             title = rs.getString(CardDao.title.name),
             price = rs.getInt(CardDao.price.name),
             category = rs.getString(CardDao.category.name),
-            tags = rs.getString(CardDao.tags.name),
+            colors = rs.getString(CardDao.colors.name),
             description = rs.getString(CardDao.description.name),
             img = rs.getString(CardDao.img.name),
             createdAt = rs.getTimestamp(CardDao.createdAt.name)?.toInstant()
