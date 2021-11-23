@@ -22,8 +22,11 @@ actual class CardService : ICardService {
                                 """(lower(title) like :search
                             OR lower(price) like :search
                             OR lower(category) like :search
-                            OR lower(tags) like :search
-                            OR lower(created_at) like :search)""".trimMargin()
+                            OR lower(colors) like :search
+                            OR lower(locations) like :search
+                            OR lower(created_at) like :search
+                            OR lower(composes) like :search
+                            OR lower(description) like :search)""".trimMargin()
                             )
                         parameter("search", "%${it.lowercase()}%")
                         }
@@ -34,6 +37,7 @@ actual class CardService : ICardService {
                         Sort.COLORS -> orderBy("lower(colors)")
                         Sort.TITLE -> orderBy("lower(title)")
                         Sort.CREATEAT -> orderBy("lower(created_at)")
+                        Sort.LOCATIONS -> orderBy("lower(locations)")
                     }
                 }
                 queryList(query.sql, query.parameters) {
@@ -47,11 +51,18 @@ actual class CardService : ICardService {
             (CardDao.insert {
                 it[title] = card.title
                 it[price] = card.price
-                it[category] = card.category.toString()
-                it[colors] = card.colors.toString()
+                it[category] = card.category
+                it[colors] = card.colors
                 it[description] = card.description
                 it[img] = card.img
                 it[createdAt] = DateTime()
+                it[visible] = card.visible
+                it[locations] = card.locations
+                it[width] = card.width
+                it[depth] = card.depth
+                it[height] = card.height
+                it[weight] = card.weight
+                it[composes] = card.composes
 
             } get CardDao.id)
         }
@@ -65,12 +76,19 @@ actual class CardService : ICardService {
                     CardDao.update({ CardDao.id eq it }) { e ->
                         e[title] = card.title
                         e[price] = card.price
-                        e[category] = card.category.toString()
-                        e[colors] = card.colors.toString()
+                        e[category] = card.category
+                        e[colors] = card.colors
                         e[description] = card.description
                         e[img] = card.img
                         e[createdAt] = oldCard.createdAt
                             ?.let { DateTime(Date.from(it.atZone(ZoneId.systemDefault()).toInstant())) }
+                        e[visible] = card.visible
+                        e[locations] = card.locations
+                        e[width] = card.width
+                        e[depth] = card.depth
+                        e[height] = card.height
+                        e[weight] = card.weight
+                        e[composes] = card.composes
                     }
                 }
             }
@@ -101,6 +119,13 @@ actual class CardService : ICardService {
             img = row[CardDao.img],
             createdAt = row[CardDao.createdAt]?.millis?.let { Date(it) }?.toInstant()
                 ?.atZone(ZoneId.systemDefault())?.toLocalDateTime(),
+            visible = row[CardDao.visible],
+            locations = row[CardDao.locations],
+            width = row[CardDao.width],
+            depth = row[CardDao.depth],
+            height = row[CardDao.height],
+            weight = row[CardDao.weight],
+            composes = row[CardDao.composes]
         )
 
     private fun toCard(rs: ResultSet): Card =
@@ -114,6 +139,13 @@ actual class CardService : ICardService {
             img = rs.getString(CardDao.img.name),
             createdAt = rs.getTimestamp(CardDao.createdAt.name)?.toInstant()
                 ?.atZone(ZoneId.systemDefault())?.toLocalDateTime(),
+            visible = rs.getBoolean(CardDao.visible.name),
+            locations = rs.getString(CardDao.locations.name),
+            width = rs.getInt(CardDao.width.name),
+            depth = rs.getInt(CardDao.depth.name),
+            height = rs.getInt(CardDao.height.name),
+            weight = rs.getInt(CardDao.weight.name),
+            composes = rs.getString(CardDao.composes.name)
         )
 }
 

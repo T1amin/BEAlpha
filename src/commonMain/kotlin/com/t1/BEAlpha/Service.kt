@@ -3,7 +3,7 @@ package com.t1.BEAlpha
 import io.kvision.annotations.KVService
 
 enum class Sort{
-    TITLE, COLORS, CREATEAT, PRICE, CATEGORY
+    TITLE, COLORS, CREATEAT, PRICE, CATEGORY, LOCATIONS
 }
 
 @KVService

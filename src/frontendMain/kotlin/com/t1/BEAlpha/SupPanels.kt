@@ -2,6 +2,8 @@ package com.t1.BEAlpha
 
 import io.kvision.core.*
 import io.kvision.form.FormPanel
+import io.kvision.form.check.CheckBox
+import io.kvision.form.check.checkBox
 import io.kvision.form.formPanel
 import io.kvision.form.select.selectInput
 import io.kvision.form.spinner.Spinner
@@ -22,7 +24,8 @@ val sortOptions = listOf(
     "${Sort.TITLE}" to "Название",
     "${Sort.PRICE}" to "Цена",
     "${Sort.CATEGORY}" to "Категория",
-    "${Sort.COLORS}" to "Тег",
+    "${Sort.COLORS}" to "Цвет",
+    "${Sort.LOCATIONS}" to "Наличие",
 )
 
 object cardPanel: FlexPanel(
@@ -77,6 +80,7 @@ class EditPanel(card: Card) : Modal(
     escape = true,
     className = "modal fade bottom",
     animation = true,
+    scrollable = true
 ) {
     private lateinit var editingCard: Card
     private lateinit var formPanel: FormPanel<Card>
@@ -85,10 +89,17 @@ class EditPanel(card: Card) : Modal(
     init {
         editingCard = card
         formPanel = formPanel {
+            add(Card::visible, CheckBox(label = "Видимость", value = editingCard.visible))
             add(Card::title, Text(label = "Название", value = editingCard.title).apply { maxlength = 255 })
             add(Card::price, Spinner(label = "Цена", value = editingCard.price))
             add(Card::category, Text(label = "Категория", value = editingCard.category).apply { maxlength = 255 })
             add(Card::colors, Text(label = "Теги", value = editingCard.colors).apply { maxlength = 255 })
+            add(Card::locations, Text(label = "Наличие", value = editingCard.locations).apply { maxlength = 255 })
+            add(Card::width, Spinner(label = "Ширина в мм", value = editingCard.width))
+            add(Card::depth, Spinner(label = "Глубина в мм", value = editingCard.depth))
+            add(Card::height, Spinner(label = "Высота в мм", value = editingCard.height))
+            add(Card::weight, Spinner(label = "Вес в мм", value = editingCard.weight))
+            add(Card::composes, Text(label = "Состав", value = editingCard.composes).apply { maxlength = 255 })
             add(Card::description, Text(label = "Описание", value = editingCard.description))
             add(Card::img, Text(label = "Ссылка на изображение", value = editingCard.img))
         }

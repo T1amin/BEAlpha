@@ -17,5 +17,13 @@ data class Card(
     val colors: String? = null,
     val description: String? = null,
     val img: String? = null,
-    val createdAt: LocalDateTime? = null
+    val createdAt: LocalDateTime? = null,
+    val visible: Boolean = true,
+    val locations: String? = null,
+    val width: Int? = null,
+    val depth: Int? = null,
+    val height: Int? = null,
+    val weight: Int? = null,
+    val composes: String? = null
+
 )
