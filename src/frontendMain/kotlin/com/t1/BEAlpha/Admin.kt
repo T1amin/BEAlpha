@@ -41,10 +41,13 @@ object Admin: SimplePanel() {
                             p(card.description)
                             p(card.category + ", основные цвета: ${card.colors}")
                             if (!card.locations.isNullOrBlank()) p("В наличии: ${card.locations}")
-                            if ((card.width != null) and (card.depth != null) and (card.height != null)) {
-                                p("Размеры: ${card.width}мм на ${card.depth}мм на ${card.height}мм.")
-                            }
-                            if (card.weight != null) p("Вес ${card.weight}гр.")
+                            if ((card.width != 0) or (card.depth != 0) or (card.height != 0)) {
+                                p("Размеры: "
+                                   + if (card.width != 0) { "${card.width} мм. " } else {""}
+                                   + if (card.depth != 0) { "${card.depth} мм. " } else {""}
+                                   + if (card.height != 0) { "${card.height} мм. " } else {""}
+                                     )}
+                            if (card.weight != 0) p("Вес ${card.weight}гр.")
                             if (!card.composes.isNullOrBlank()) p("Состав: ${card.composes}")
                             footer(className = "blockquote-footer", content = card.createdAt?.toLocaleString("ru-Ru"))
                         }

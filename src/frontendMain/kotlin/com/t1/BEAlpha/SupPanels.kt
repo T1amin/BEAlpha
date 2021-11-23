@@ -93,7 +93,7 @@ class EditPanel(card: Card) : Modal(
             add(Card::title, Text(label = "Название", value = editingCard.title).apply { maxlength = 255 })
             add(Card::price, Spinner(label = "Цена", value = editingCard.price))
             add(Card::category, Text(label = "Категория", value = editingCard.category).apply { maxlength = 255 })
-            add(Card::colors, Text(label = "Теги", value = editingCard.colors).apply { maxlength = 255 })
+            add(Card::colors, Text(label = "Цвета", value = editingCard.colors).apply { maxlength = 255 })
             add(Card::locations, Text(label = "Наличие", value = editingCard.locations).apply { maxlength = 255 })
             add(Card::width, Spinner(label = "Ширина в мм", value = editingCard.width))
             add(Card::depth, Spinner(label = "Глубина в мм", value = editingCard.depth))
