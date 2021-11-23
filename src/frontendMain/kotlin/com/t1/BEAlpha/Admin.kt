@@ -21,10 +21,10 @@ object Admin: SimplePanel() {
         dataContainer(
             Model.cards, {card, index, _ ->
                 add(position = index, Div(className = "polaroid"){
-                        maxWidth = 350.px
-                        minWidth = 160.px
-//                        margin = 5.px
-//                        flexShrink = 1
+                    opacity = if (card.visible) 1.0 else 0.3
+                    maxWidth = 350.px
+                    minWidth = 160.px
+
                     article {
                     div(
                             className = "card-body"
