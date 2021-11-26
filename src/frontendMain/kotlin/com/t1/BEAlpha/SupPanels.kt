@@ -3,7 +3,6 @@ package com.t1.BEAlpha
 import io.kvision.core.*
 import io.kvision.form.FormPanel
 import io.kvision.form.check.CheckBox
-import io.kvision.form.check.checkBox
 import io.kvision.form.formPanel
 import io.kvision.form.select.selectInput
 import io.kvision.form.spinner.Spinner
@@ -11,6 +10,7 @@ import io.kvision.form.text.Text
 import io.kvision.form.text.TextInput
 import io.kvision.form.text.TextInputType
 import io.kvision.form.text.text
+import io.kvision.form.upload.Upload
 import io.kvision.html.Button
 import io.kvision.html.button
 import io.kvision.modal.Modal
@@ -18,6 +18,7 @@ import io.kvision.navbar.*
 import io.kvision.panel.FlexPanel
 import io.kvision.panel.hPanel
 import io.kvision.utils.perc
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 val sortOptions = listOf(
@@ -54,7 +55,7 @@ object NavPanel: Navbar(
             selectInput(sortOptions, "${Sort.TITLE}") {
                 onChangeLaunch {
                     this.value?.let { opt ->
-                        Model.sort = Sort.valueOf(opt)
+                        CardModel.sort = Sort.valueOf(opt)
                     }
                 }
             }
@@ -65,7 +66,7 @@ object NavPanel: Navbar(
                     placeholder = "Найти ..."
                     setEventListener<TextInput> {
                         input = {
-                            Model.search = self.value
+                            CardModel.search = self.value
                         }
                     }
                 }
@@ -108,9 +109,9 @@ class EditPanel(card: Card) : Modal(
                 AppScope.launch {
                     val editCard = formPanel.getData()
                     if (card.id == null){
-                        Model.addCard(editCard.copy(id = editCard.id))
+                        CardModel.addCard(editCard.copy(id = editCard.id))
                     }else {
-                        Model.updateCard(editCard.copy(id = editingCard.id))
+                        CardModel.updateCard(editCard.copy(id = editingCard.id))
                     }
                     this@EditPanel.hide()
                 }

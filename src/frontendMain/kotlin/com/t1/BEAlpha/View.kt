@@ -10,7 +10,7 @@ import io.kvision.utils.px
 object View : SimplePanel() {
     init {
         dataContainer(
-            Model.cards, {card, order, _ ->
+            CardModel.cards, { card, order, _ ->
                 val modal = Modal(
                     "Подробнее",
                     closeButton = true,

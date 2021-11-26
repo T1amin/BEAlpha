@@ -18,6 +18,11 @@ object CardDao: Table("card") {
     val height = integer("height").nullable()
     val weight = integer("weight").nullable()
     val composes = varchar("composes", 255).nullable()
+}
 
-
+object ImageDao: Table("image"){
+    val id = integer("id").primaryKey().autoIncrement().uniqueIndex()
+    val cardId = integer("card_id").nullable()
+    val url = varchar("url", 255).nullable()
+    val value = binary("value", 255).nullable()
 }

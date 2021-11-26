@@ -5,7 +5,7 @@ import io.kvision.state.observableListOf
 import io.kvision.utils.syncWithList
 import kotlinx.coroutines.launch
 
-object Model {
+object CardModel {
     private val cardService = CardService()
     var cards: ObservableList<Card> = observableListOf()
 
@@ -46,6 +46,31 @@ object Model {
     suspend fun deleteCard(id: Int): Boolean{
         val result = cardService.deleteCard(id)
         getCardList()
+        return result
+    }
+}
+
+object ImageModel {
+    private val imageService = ImageService()
+    var images: ObservableList<Image> = observableListOf()
+    var search: Int? = null
+        set(value) {
+            field = value
+            AppScope.launch { ImageModel.getImages() }
+        }
+    suspend fun getImages(){
+        val newImage = imageService.getImages(search)
+        images.syncWithList(newImage)
+    }
+
+    suspend fun addImage(image: Image){
+        imageService.addImage(image)
+        getImages()
+    }
+
+    suspend fun deleteImage(id: Int): Boolean{
+        val result = imageService.deleteImage(id)
+        getImages()
         return result
     }
 }

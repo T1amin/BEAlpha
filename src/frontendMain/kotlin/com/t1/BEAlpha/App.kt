@@ -18,7 +18,6 @@ import io.kvision.MomentModule
 import io.kvision.MapsModule
 import io.kvision.ToastModule
 import io.kvision.PrintModule
-import io.kvision.html.Span
 import io.kvision.module
 import io.kvision.panel.root
 import io.kvision.startApplication
@@ -41,7 +40,7 @@ class App : Application() {
 //            add(View)
         }
         AppScope.launch {
-            Model.getCardList()
+            CardModel.getCardList()
             test()
         }
     }

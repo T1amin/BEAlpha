@@ -1,8 +1,6 @@
 package com.t1.BEAlpha
 
 import io.kvision.data.dataContainer
-import io.kvision.form.check.CheckBox
-import io.kvision.form.check.checkBox
 import io.kvision.html.*
 import io.kvision.modal.Confirm
 import io.kvision.panel.SimplePanel
@@ -19,7 +17,7 @@ object Admin: SimplePanel() {
         ).onClick { EditPanel(Card(null)) })
 
         dataContainer(
-            Model.cards, {card, index, _ ->
+            CardModel.cards, { card, index, _ ->
                 add(position = index, Div(className = "polaroid"){
                     opacity = if (card.visible) 1.0 else 0.3
                     maxWidth = 350.px
@@ -56,8 +54,8 @@ object Admin: SimplePanel() {
                             e.stopPropagation()
                             Confirm.show("Are you sure?", "Do you want to delete this address?") {
                                 AppScope.launch {
-                                    Model.cards[index].id?.let {
-                                        Model.deleteCard(card.id!!)
+                                    CardModel.cards[index].id?.let {
+                                        CardModel.deleteCard(card.id!!)
                                     }
                                 }
                             }

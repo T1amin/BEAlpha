@@ -3,12 +3,16 @@ package com.t1.BEAlpha
 import com.github.andrewoma.kwery.core.builder.query
 import com.t1.BEAlpha.Db.dbQuery
 import com.t1.BEAlpha.Db.queryList
+import io.kvision.types.KFile
 import org.jetbrains.exposed.sql.*
 import org.joda.time.DateTime
+import java.io.File
+import java.io.InputStream
+import java.sql.Blob
 import java.sql.ResultSet
 import java.time.ZoneId
+import java.util.*
 import java.util.Date
-
 
 actual class CardService : ICardService {
 
@@ -147,5 +151,56 @@ actual class CardService : ICardService {
             weight = rs.getInt(CardDao.weight.name),
             composes = rs.getString(CardDao.composes.name)
         )
+
+}
+
+
+actual class ImageService: IImageService{
+    override suspend fun addImage(img: Image): Image = run {
+        val key = dbQuery {
+            ImageDao.insert {
+                it[cardId] = img.cardId
+                it[url] = img.url
+                it[value] = img.value
+            } get ImageDao.id
+        }
+        getImage(key)!!
+    }
+
+    override suspend fun getImages(cardId: Int?): List<Image> = run {
+        dbQuery {
+            val query = query {
+                select("SELECT * FROM card")
+                whereGroup { where("card_id like :search") }
+            }
+            queryList(query.sql, query.parameters) {
+                toImage(it)
+            }
+        }
+    }
+
+    private suspend fun getImage(id: Int): Image? = dbQuery{
+        ImageDao.select{
+            ImageDao.id eq id
+        }.mapNotNull { toImage(it) }.singleOrNull()
+    }
+
+    override suspend fun deleteImage(id: Int): Boolean = run {
+        dbQuery { ImageDao.deleteWhere { ImageDao.id eq id }>0 }
+    }
+
+    private fun toImage(row: ResultRow): Image = Image(
+        id = row[ImageDao.id],
+        cardId = row[ImageDao.cardId],
+        url = row[ImageDao.url],
+        value = row[ImageDao.value]
+    )
+
+    private fun toImage(rs: ResultSet): Image = Image(
+        id = rs.getInt(ImageDao.id.name),
+        cardId = rs.getInt(ImageDao.cardId.name),
+        url = rs.getString(ImageDao.url.name),
+        value = rs.getBytes(ImageDao.value.name)
+    )
 }
 

@@ -3,6 +3,7 @@
 
 package com.t1.BEAlpha
 
+import io.kvision.types.KFile
 import io.kvision.types.LocalDateTime
 import kotlinx.serialization.BinaryFormat
 import kotlinx.serialization.Serializable
@@ -24,6 +25,13 @@ data class Card(
     val depth: Int? = null,
     val height: Int? = null,
     val weight: Int? = null,
-    val composes: String? = null
+    val composes: String? = null,
+)
 
+@Serializable
+data class Image(
+    val id: Int? = 0,
+    val cardId: Int? = null,
+    val url: String? = null,
+    val value: ByteArray? = null
 )
